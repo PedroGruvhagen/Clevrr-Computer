@@ -1,10 +1,32 @@
-from langchain_openai import AzureChatOpenAI
-from langchain_google_genai import ChatGoogleGenerativeAI
-
+# /utils/constants.py
+from langchain_openai import ChatOpenAI
+import platform
 import dotenv
 import os
 
 _ = dotenv.load_dotenv()
+
+# System-specific configurations
+SUPPORTED_SYSTEMS = {
+    "Windows": "windows",
+    "macOS": "darwin",
+    "Linux": "linux"
+}
+
+SYSTEM_KEYS = {
+    "windows": "win",
+    "darwin": "command",
+    "linux": "super"
+}
+
+SYSTEM_FONTS = {
+    "windows": "arial",
+    "darwin": "SF Pro",
+    "linux": "DejaVu Sans"
+}
+
+# Default system detection
+CURRENT_SYSTEM = platform.system().lower()
 
 BG_GRAY = "#5D5FEF"
 BG_COLOR = "#F2F2F2"
@@ -13,19 +35,12 @@ TEXT_COLOR = "#1C1C1C"
 FONT = "Helvetica 14"
 FONT_BOLD = "Helvetica 13 bold"
 
-OPENAI = AzureChatOpenAI(
-    openai_api_version=os.getenv("AZURE_OPENAI_API_VERSION"),
-    azure_deployment=os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"),
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
-)
-
-GEMINI = ChatGoogleGenerativeAI(
-    model="gemini-1.5-pro-latest",
-    google_api_key=os.getenv("GOOGLE_API_KEY"),
+OPENAI = ChatOpenAI(
+    model="gpt-4-turbo-preview",
+    api_key=os.getenv("OPENAI_API_KEY"),
 )
 
 MODELS = {
-    "gemini": GEMINI,
     "openai": OPENAI
 }
 
